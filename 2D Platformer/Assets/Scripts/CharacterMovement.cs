@@ -3,10 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(Mover), typeof(InputReader), typeof(GroundDetector))]
 public class CharacterMovement : MonoBehaviour
 {
-    [SerializeField] private Transform _startPoint;
-    [SerializeField] private Reseter _reseter;
-    [SerializeField] private AnimatorController _animatorController;
-
     private Mover _mover;
     private InputReader _inputReader;
     private GroundDetector _groundDetector;
@@ -20,12 +16,7 @@ public class CharacterMovement : MonoBehaviour
         _groundDetector = GetComponent<GroundDetector>();
     }
 
-    private void Start()
-    {
-        ResetPosition();
-    }
-
-    private void FixedUpdate()
+    public void Move()
     {
         if (_inputReader.XDirection != 0)
         {
@@ -36,12 +27,5 @@ public class CharacterMovement : MonoBehaviour
         {
             _mover.Jump();
         }
-
-        _animatorController.SetXDirectionValue(XMovementDirection);
-    }
-
-    public void ResetPosition()
-    {
-        _reseter.PositionReset(_startPoint.position);
     }
 }

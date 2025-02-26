@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class AnimatorController : MonoBehaviour
 {
-    private const string XDirection = "XDirection";
+    private readonly int XDirection = Animator.StringToHash(nameof(XDirection));
 
     private Animator _animator;
 

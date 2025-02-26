@@ -4,9 +4,14 @@ public class FallenThingsCatcher : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.TryGetComponent(out CharacterMovement characterMovement))
+        if (collision.transform.TryGetComponent(out Character character))
         {
-            characterMovement.ResetPosition();
+            character.ResetPosition();
+        }
+
+        if (collision.transform.TryGetComponent(out Coin coin))
+        {
+            coin.CallRespawn();
         }
     }
 }
