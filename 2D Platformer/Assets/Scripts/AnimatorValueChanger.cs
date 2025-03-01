@@ -1,9 +1,10 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class AnimatorController : MonoBehaviour
+public class AnimatorValueChanger : MonoBehaviour
 {
     private readonly int XDirection = Animator.StringToHash(nameof(XDirection));
+    private readonly int Attack = Animator.StringToHash(nameof(Attack));
 
     private Animator _animator;
 
@@ -15,5 +16,10 @@ public class AnimatorController : MonoBehaviour
     public void SetXDirectionValue(float value)
     {
         _animator.SetFloat(XDirection, value);
+    }
+
+    public void SetAttackTrigger()
+    {
+        _animator.SetTrigger(Attack);
     }
 }

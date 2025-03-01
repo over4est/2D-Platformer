@@ -4,20 +4,21 @@ using UnityEngine;
 [RequireComponent(typeof(Mover))]
 public class EnemyMovement : MonoBehaviour
 {
+    [SerializeField] private SpriteFlipper _spriteFlipper;
     [SerializeField] private List<EnemyWaypoint> _waypoints;
     [SerializeField] private float _touchDisatance;
-    [SerializeField] private AnimatorController _animatorController;
 
     private Mover _mover;
     private int _currentWaypoint = 0;
-    public float XDirection { get; private set; }
+
+    public float XMovementDirection { get; private set; }
 
     private void Awake()
     {
         _mover = GetComponent<Mover>();
     }
 
-    private void FixedUpdate()
+    public void MoveToWaypoint()
     {
         float sqrDistanceToWaypoint = (_waypoints[_currentWaypoint].transform.position - transform.position).sqrMagnitude;
 
@@ -26,9 +27,17 @@ public class EnemyMovement : MonoBehaviour
             _currentWaypoint = ++_currentWaypoint % _waypoints.Count;
         }
 
-        XDirection = (_waypoints[_currentWaypoint].transform.position - transform.position).normalized.x;
+        XMovementDirection = (_waypoints[_currentWaypoint].transform.position - transform.position).normalized.x;
 
-        _mover.Move(XDirection);
-        _animatorController.SetXDirectionValue(XDirection);
+        _mover.Move(XMovementDirection);
+        _spriteFlipper.TryFlip(XMovementDirection);
+    }
+
+    public void MoveToCharacter(Transform character)
+    {
+        XMovementDirection = (character.position - transform.position).normalized.x;
+
+        _mover.Move(XMovementDirection);
+        _spriteFlipper.TryFlip(XMovementDirection);
     }
 }

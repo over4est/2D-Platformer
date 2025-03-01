@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8058779505145575003}
   - component: {fileID: 2388822408064444455}
   m_Layer: 0
-  m_Name: Coin
+  m_Name: FirstAid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.09, y: -1.44, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -76,12 +76,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 1, g: 0.97940505, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: a73718fc99179c047acba16d58e6cadf, type: 3}
+  m_Color: {r: 0.94609153, g: 0.94609153, b: 0.94609153, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.32, y: 0.32}
+  m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c94f228db7e06a4d83326808c30cfd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _healAmount: 20
 --- !u!50 &8058779505145575003
 Rigidbody2D:
   serializedVersion: 4
@@ -158,16 +159,16 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.00014397502, y: -0.0006953627}
+  m_Offset: {x: -0.015701294, y: -0.30022633}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.2, y: 0.2}
-    newSize: {x: 0.32, y: 0.32}
+    oldSize: {x: 5.12, y: 5.12}
+    newSize: {x: 5.12, y: 5.12}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.119225666, y: 0.12207897}
-  m_EdgeRadius: 0.1
+  m_Size: {x: 4.9739547, y: 3.490823}
+  m_EdgeRadius: 0

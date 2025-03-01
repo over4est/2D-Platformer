@@ -1,39 +1,55 @@
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterMovement), typeof(Reseter), typeof(AnimatorController))]
-public class Character : MonoBehaviour
+[RequireComponent(typeof(CharacterMovement), typeof(AnimatorValueChanger))]
+public class Character : MonoBehaviour, IDamageable
 {
+    [SerializeField] private int _maxHealth;
+    [SerializeField] private int _attackDamage;
 
-    private Vector2 _startPoint;
+    private int _currentHealth;
     private CharacterMovement _characterMovement;
-    private Reseter _reseter;
-    private AnimatorController _animatorController;
+    private AnimatorValueChanger _animatorController;
 
     private void Awake()
     {
-        _startPoint = transform.position;
+        _currentHealth = _maxHealth;
         _characterMovement = GetComponent<CharacterMovement>();
-        _reseter = GetComponent<Reseter>();
-        _animatorController = GetComponent<AnimatorController>();
+        _animatorController = GetComponent<AnimatorValueChanger>();
     }
 
     private void FixedUpdate()
     {
         _characterMovement.Move();
-
-        _animatorController.SetXDirectionValue(_characterMovement.XMovementDirection);
-    }
-
-    public void ResetPosition()
-    {
-        _reseter.PositionReset(_startPoint);
+        _characterMovement.Attack(_attackDamage);
+        _animatorController.SetXDirectionValue(Mathf.Abs(_characterMovement.XMovementDirection));
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.TryGetComponent(out Coin coin))
+        if (collision.transform.TryGetComponent(out FirstAid firstAid))
         {
-            coin.CallRespawn();
+            UseFirstAid(firstAid.HealAmount);
+            firstAid.CallRespawn();
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        _currentHealth -= damage;
+
+        if (_currentHealth <= 0)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    private void UseFirstAid(int healAmount)
+    {
+        _currentHealth += healAmount;
+
+        if (_currentHealth > _maxHealth)
+        {
+            _currentHealth = _maxHealth;
         }
     }
 }
