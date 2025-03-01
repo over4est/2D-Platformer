@@ -4,21 +4,24 @@ using UnityEngine;
 [RequireComponent(typeof(AnimatorValueChanger))]
 public class Attacker : MonoBehaviour
 {
+    [SerializeField] private int _attackDamage;
     [SerializeField] private float _attackDelay;
     [SerializeField] private Transform _attackPoint;
     [SerializeField] private float _attackRadius;
     [SerializeField] private LayerMask _enemyMask;
 
     private AnimatorValueChanger _animatorValueChanger;
+    private WaitForSeconds _wait;
 
     public bool IsReadyAttack { get; private set; } = true;
 
     private void Awake()
     {
         _animatorValueChanger = GetComponent<AnimatorValueChanger>();
+        _wait = new WaitForSeconds(_attackDelay);
     }
 
-    public void Attack(int damage)
+    public void Attack()
     {
         _animatorValueChanger.SetAttackTrigger();
 
@@ -26,18 +29,16 @@ public class Attacker : MonoBehaviour
 
         if (target != null && target.TryGetComponent(out IDamageable obj))
         {
-            obj.TakeDamage(damage);
+            obj.TakeDamage(_attackDamage);
         }
 
         IsReadyAttack = false;
 
-        StartCoroutine(AttackReload(_attackDelay));
+        StartCoroutine(AttackReload(_wait));
     }
 
-    private IEnumerator AttackReload(float reloadTime)
+    private IEnumerator AttackReload(WaitForSeconds wait)
     {
-        var wait = new WaitForSeconds(reloadTime);
-
         yield return wait;
 
         IsReadyAttack = true;

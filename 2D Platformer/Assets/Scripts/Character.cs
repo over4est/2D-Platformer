@@ -1,26 +1,22 @@
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterMovement), typeof(AnimatorValueChanger))]
+[RequireComponent(typeof(CharacterMovement), typeof(AnimatorValueChanger), typeof(Health))]
 public class Character : MonoBehaviour, IDamageable
 {
-    [SerializeField] private int _maxHealth;
-    [SerializeField] private int _attackDamage;
-
-    private int _currentHealth;
     private CharacterMovement _characterMovement;
     private AnimatorValueChanger _animatorController;
+    private Health _health;
 
     private void Awake()
     {
-        _currentHealth = _maxHealth;
         _characterMovement = GetComponent<CharacterMovement>();
         _animatorController = GetComponent<AnimatorValueChanger>();
+        _health = GetComponent<Health>();
     }
 
     private void FixedUpdate()
     {
         _characterMovement.Move();
-        _characterMovement.Attack(_attackDamage);
         _animatorController.SetXDirectionValue(Mathf.Abs(_characterMovement.XMovementDirection));
     }
 
@@ -29,27 +25,17 @@ public class Character : MonoBehaviour, IDamageable
         if (collision.transform.TryGetComponent(out FirstAid firstAid))
         {
             UseFirstAid(firstAid.HealAmount);
-            firstAid.CallRespawn();
+            firstAid.Disable();
         }
     }
 
     public void TakeDamage(int damage)
     {
-        _currentHealth -= damage;
-
-        if (_currentHealth <= 0)
-        {
-            gameObject.SetActive(false);
-        }
+        _health.TakeDamage(damage);
     }
 
     private void UseFirstAid(int healAmount)
     {
-        _currentHealth += healAmount;
-
-        if (_currentHealth > _maxHealth)
-        {
-            _currentHealth = _maxHealth;
-        }
+        _health.RestoreHealth(healAmount);
     }
 }

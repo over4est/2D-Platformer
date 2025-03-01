@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 8062880454437546363}
   - component: {fileID: 7266305507336769824}
   - component: {fileID: -8800135251350049146}
+  - component: {fileID: -1562008108748265363}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -298,7 +299,7 @@ MonoBehaviour:
   _attacker: {fileID: 7266305507336769824}
   _maxHealth: 20
   _distanceToAttack: 2
-  _damage: 20
+  _health: {fileID: -1562008108748265363}
 --- !u!114 &7266305507336769824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,6 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 577a3af9e84ec2445b984b5167d8b1be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _attackDamage: 10
   _attackDelay: 1
   _attackPoint: {fileID: 4873756972848470600}
   _attackRadius: 1
@@ -329,6 +331,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed78eda96f4d640499e062b3f279ac38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-1562008108748265363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1015049570847163605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 417d1c62ecfa54a448195cf072e92ab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 20
 --- !u!1 &5213752855585778517
 GameObject:
   m_ObjectHideFlags: 0

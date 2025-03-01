@@ -19,6 +19,18 @@ public class CharacterMovement : MonoBehaviour
         _mover = GetComponent<Mover>();
     }
 
+    private void OnEnable()
+    {
+        _inputReader.JumpPressed += Jump;
+        _inputReader.AttackPressed += Attack;
+    }
+
+    private void OnDisable()
+    {
+        _inputReader.JumpPressed -= Jump;
+        _inputReader.AttackPressed -= Attack;
+    }
+
     public void Move()
     {
         if (_inputReader.XDirection != 0)
@@ -26,18 +38,21 @@ public class CharacterMovement : MonoBehaviour
             _spriteFlipper.TryFlip(XMovementDirection);
             _mover.Move(XMovementDirection);
         }
+    }
 
-        if (_inputReader.GetIsJump() && _groundDetector.IsGround)
+    private void Attack()
+    {
+        if (_attacker.IsReadyAttack)
         {
-            _mover.Jump();
+            _attacker.Attack();
         }
     }
 
-    public void Attack(int damage)
+    private void Jump()
     {
-        if (_inputReader.GetIsAttack() && _attacker.IsReadyAttack)
+        if (_groundDetector.IsGround())
         {
-            _attacker.Attack(damage);
+            _mover.Jump();
         }
     }
 }

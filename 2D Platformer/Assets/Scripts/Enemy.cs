@@ -6,16 +6,14 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private Attacker _attacker;
     [SerializeField] private int _maxHealth;
     [SerializeField] private float _distanceToAttack;
-    [SerializeField] private int _damage;
+    [SerializeField] private Health _health;
 
-    private int _currentHealth;
     private EnemyMovement _enemyMovement;
     private AnimatorValueChanger _animatorValueChanger;
     private CharacterDetector _characterDetector;
 
     private void Awake()
     {
-        _currentHealth = _maxHealth;
         _enemyMovement = GetComponent<EnemyMovement>();
         _animatorValueChanger = GetComponent<AnimatorValueChanger>();
         _characterDetector = GetComponent<CharacterDetector>();
@@ -34,7 +32,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
             if (sqrDistanceToTarget <= _distanceToAttack && _attacker.IsReadyAttack)
             {
-                _attacker.Attack(_damage);
+                _attacker.Attack();
             }
 
             _enemyMovement.MoveToCharacter(_characterDetector.DetectedCharacter);
@@ -45,11 +43,6 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public void TakeDamage(int damage)
     {
-        _currentHealth -= damage;
-
-        if (_currentHealth <= 0)
-        {
-            gameObject.SetActive(false);
-        }
+        _health.TakeDamage(damage);
     }
 }

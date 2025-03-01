@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class InputReader : MonoBehaviour
@@ -6,8 +7,8 @@ public class InputReader : MonoBehaviour
     private const string Jump = nameof(Jump);
     private const string Fire1 = nameof(Fire1);
 
-    private bool _isJump;
-    private bool _isAttack;
+    public event Action JumpPressed;
+    public event Action AttackPressed;
 
     public float XDirection { get; private set; }
 
@@ -17,30 +18,12 @@ public class InputReader : MonoBehaviour
 
         if (Input.GetButtonDown(Jump))
         {
-            _isJump = true;
+            JumpPressed?.Invoke();
         }
 
         if (Input.GetButtonDown(Fire1))
         {
-            _isAttack = true;
+            AttackPressed?.Invoke();
         }
-    }
-
-    public bool GetIsJump()
-    {
-        return GetBoolAsTrigger(ref _isJump);
-    }
-
-    public bool GetIsAttack()
-    {
-        return GetBoolAsTrigger(ref _isAttack);
-    }
-
-    private bool GetBoolAsTrigger(ref bool value)
-    {
-        bool localValue = value;
-        value = false;
-
-        return localValue;
     }
 }

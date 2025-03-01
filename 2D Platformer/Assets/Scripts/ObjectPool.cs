@@ -20,7 +20,7 @@ public class ObjectPool<T> where T : MonoBehaviour
     {
         obj = null;
 
-        if (HasFreeElement(out var element))
+        if (_pool.TryPop(out var element))
         {
             obj = element;
             element.gameObject.SetActive(true);
@@ -29,22 +29,6 @@ public class ObjectPool<T> where T : MonoBehaviour
         }
 
         return false;
-    }
-
-    public List<T> GetAllElements()
-    {
-        return _objects;
-    }
-
-    public void Release(T obj)
-    {
-        obj.gameObject.SetActive(false);
-        _pool.Push(obj);
-    }
-
-    private bool HasFreeElement(out T element)
-    {
-        return _pool.TryPop(out element);
     }
 
     private void CreatePool(int count)

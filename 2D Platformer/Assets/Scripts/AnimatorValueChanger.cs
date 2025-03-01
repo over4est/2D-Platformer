@@ -3,8 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class AnimatorValueChanger : MonoBehaviour
 {
-    private readonly int XDirection = Animator.StringToHash(nameof(XDirection));
-    private readonly int Attack = Animator.StringToHash(nameof(Attack));
+    private const string XDirection = nameof(XDirection);
+    private const string Attack = nameof(Attack);
 
     private Animator _animator;
 
