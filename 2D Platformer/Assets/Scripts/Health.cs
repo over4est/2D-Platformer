@@ -26,7 +26,7 @@ public class Health : MonoBehaviour
         }
     }
 
-    public void RestoreHealth(int restoreValue)
+    public void Restore(int restoreValue)
     {
         if (restoreValue < 0)
         {

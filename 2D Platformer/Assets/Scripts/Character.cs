@@ -36,6 +36,6 @@ public class Character : MonoBehaviour, IDamageable
 
     private void UseFirstAid(int healAmount)
     {
-        _health.RestoreHealth(healAmount);
+        _health.Restore(healAmount);
     }
 }
