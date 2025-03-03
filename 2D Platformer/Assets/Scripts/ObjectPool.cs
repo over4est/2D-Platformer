@@ -6,7 +6,6 @@ public class ObjectPool<T> where T : MonoBehaviour
     private T _prefab;
     private Transform _conteiner;
     private Stack<T> _pool;
-    private List<T> _objects = new List<T>();
 
     public ObjectPool(T prefab, int objectCount, Transform container)
     {
@@ -47,7 +46,6 @@ public class ObjectPool<T> where T : MonoBehaviour
     {
         var newObject = Object.Instantiate(_prefab, _conteiner);
 
-        _objects.Add(newObject);
         newObject.gameObject.SetActive(isActiveByDefault);
 
         return newObject;

@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class SpriteFlipper : MonoBehaviour
 {
-    private bool IsFacingRight => transform.localScale.x > 0;
+    private bool _isFacingRight = true;
 
     public void TryFlip(float xDirection)
     {
-        if (xDirection > 0 && IsFacingRight == false)
+        if (xDirection > 0 && _isFacingRight == false)
         {
             Flip();
         }
-        else if (xDirection < 0 && IsFacingRight)
+        else if (xDirection < 0 && _isFacingRight)
         {
             Flip();
         }
@@ -18,10 +18,9 @@ public class SpriteFlipper : MonoBehaviour
 
     private void Flip()
     {
-        float scaleChange = -1f;
-        Vector3 tempScale = transform.localScale;
+        float rotateChange = 180f;
 
-        tempScale.x *= scaleChange;
-        transform.localScale = tempScale;
+        _isFacingRight = !_isFacingRight;
+        transform.Rotate(0f, rotateChange, 0f);
     }
 }
