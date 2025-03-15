@@ -1,13 +1,13 @@
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyMovement), typeof(AnimatorValueChanger), typeof(CharacterDetector))]
+[RequireComponent(typeof(EnemyMovement), typeof(Attacker), typeof(CharacterDetector))]
+[RequireComponent(typeof(Health))]
 public class Enemy : MonoBehaviour, IDamageable
 {
-    [SerializeField] private Attacker _attacker;
-    [SerializeField] private int _maxHealth;
     [SerializeField] private float _distanceToAttack;
-    [SerializeField] private Health _health;
 
+    private Attacker _attacker;
+    private Health _health;
     private EnemyMovement _enemyMovement;
     private AnimatorValueChanger _animatorValueChanger;
     private CharacterDetector _characterDetector;
@@ -15,8 +15,10 @@ public class Enemy : MonoBehaviour, IDamageable
     private void Awake()
     {
         _enemyMovement = GetComponent<EnemyMovement>();
-        _animatorValueChanger = GetComponent<AnimatorValueChanger>();
         _characterDetector = GetComponent<CharacterDetector>();
+        _health = GetComponent<Health>();
+        _attacker = GetComponent<Attacker>();
+        _animatorValueChanger = GetComponentInChildren<AnimatorValueChanger>();
     }
 
     private void FixedUpdate()

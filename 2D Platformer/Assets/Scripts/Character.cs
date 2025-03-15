@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterMovement), typeof(AnimatorValueChanger), typeof(Health))]
+[RequireComponent(typeof(CharacterMovement), typeof(Health))]
 public class Character : MonoBehaviour, IDamageable
 {
     private CharacterMovement _characterMovement;
@@ -10,8 +10,8 @@ public class Character : MonoBehaviour, IDamageable
     private void Awake()
     {
         _characterMovement = GetComponent<CharacterMovement>();
-        _animatorController = GetComponent<AnimatorValueChanger>();
         _health = GetComponent<Health>();
+        _animatorController = GetComponentInChildren<AnimatorValueChanger>();
     }
 
     private void FixedUpdate()
@@ -36,6 +36,6 @@ public class Character : MonoBehaviour, IDamageable
 
     private void UseFirstAid(int healAmount)
     {
-        _health.Restore(healAmount);
+        _health.Heal(healAmount);
     }
 }

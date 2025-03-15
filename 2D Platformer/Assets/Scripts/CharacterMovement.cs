@@ -1,11 +1,11 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Mover), typeof(InputReader), typeof(GroundDetector))]
+[RequireComponent(typeof(Attacker))]
 public class CharacterMovement : MonoBehaviour
 {
-    [SerializeField] private Attacker _attacker;
-    [SerializeField] private SpriteFlipper _spriteFlipper;
-
+    private Attacker _attacker;
+    private SpriteFlipper _spriteFlipper;
     private Mover _mover;
     private InputReader _inputReader;
     private GroundDetector _groundDetector;
@@ -14,9 +14,11 @@ public class CharacterMovement : MonoBehaviour
 
     private void Awake()
     {
+        _attacker = GetComponent<Attacker>();
         _inputReader = GetComponent<InputReader>();
         _groundDetector = GetComponent<GroundDetector>();
         _mover = GetComponent<Mover>();
+        _spriteFlipper = GetComponentInChildren<SpriteFlipper>();
     }
 
     private void OnEnable()

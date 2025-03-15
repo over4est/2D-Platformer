@@ -4,10 +4,10 @@ using UnityEngine;
 [RequireComponent(typeof(Mover))]
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] private SpriteFlipper _spriteFlipper;
     [SerializeField] private List<EnemyWaypoint> _waypoints;
     [SerializeField] private float _touchDisatance;
 
+    private SpriteFlipper _spriteFlipper;
     private Mover _mover;
     private int _currentWaypoint = 0;
 
@@ -16,6 +16,7 @@ public class EnemyMovement : MonoBehaviour
     private void Awake()
     {
         _mover = GetComponent<Mover>();
+        _spriteFlipper = GetComponentInChildren<SpriteFlipper>();
     }
 
     public void MoveToWaypoint()

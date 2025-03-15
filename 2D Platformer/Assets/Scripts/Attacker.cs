@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(AnimatorValueChanger))]
 public class Attacker : MonoBehaviour
 {
     [SerializeField] private int _attackDamage;
@@ -17,7 +16,7 @@ public class Attacker : MonoBehaviour
 
     private void Awake()
     {
-        _animatorValueChanger = GetComponent<AnimatorValueChanger>();
+        _animatorValueChanger = GetComponentInChildren<AnimatorValueChanger>();
         _wait = new WaitForSeconds(_attackDelay);
     }
 
