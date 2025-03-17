@@ -569,7 +569,7 @@ GameObject:
   - component: {fileID: 9009470581079730705}
   - component: {fileID: 1961398278771317393}
   - component: {fileID: 6853093244375385700}
-  - component: {fileID: 6578739405142178813}
+  - component: {fileID: 1222834750852988452}
   m_Layer: 6
   m_Name: Character
   m_TagString: Untagged
@@ -826,6 +826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 237bb5dd5408f594bab7b58603310229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _changeDuration: 0.25
 --- !u!114 &3100518046109340699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -888,7 +889,7 @@ MonoBehaviour:
   _reloadTime: 4
   _skillRadius: 2
   _prefab: {fileID: 2223009945130951280, guid: 321024e759c346b448d41b48af090eb2, type: 3}
---- !u!114 &6578739405142178813
+--- !u!114 &1222834750852988452
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -897,7 +898,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9015707185036019024}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48182b94a9b56424691a838abff5b031, type: 3}
+  m_Script: {fileID: 11500000, guid: 34cbcfb832e44764c893bb18168575fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _changeDuration: 0.25
+  _slider: {fileID: 0}
