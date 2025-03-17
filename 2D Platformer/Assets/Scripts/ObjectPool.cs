@@ -30,6 +30,12 @@ public class ObjectPool<T> where T : MonoBehaviour
         return false;
     }
 
+    public void Release(T obj)
+    {
+        obj.gameObject.SetActive(false);
+        _pool.Push(obj);
+    }
+
     private void CreatePool(int count)
     {
         _pool = new Stack<T>();

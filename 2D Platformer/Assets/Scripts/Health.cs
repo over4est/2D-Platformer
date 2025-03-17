@@ -8,6 +8,7 @@ public class Health : MonoBehaviour
     private float _currentValue;
 
     public event Action<float> ValueChanged;
+    public event Action Died;
 
     public float MaxValue => _maxValue;
 
@@ -31,7 +32,7 @@ public class Health : MonoBehaviour
 
         if (_currentValue == 0)
         {
-            gameObject.SetActive(false);
+            Died?.Invoke();
         }
     }
 

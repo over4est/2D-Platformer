@@ -2,41 +2,35 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(SmoothlyChanger))]
 public class SmoothlySliderHealthView : HealthView
 {
-    [SerializeField] private float _changeDuration;
-
-    private Coroutine _corutine;
     private Slider _slider;
+    private SmoothlyChanger _smoothlyChanger;
 
     private void Start()
     {
         _slider = GetComponentInChildren<Slider>();
         _slider.value = MaxValue / MaxValue;
+
+        _smoothlyChanger = GetComponent<SmoothlyChanger>();
+        _smoothlyChanger.ValueChanged += SetSliderValue;
+    }
+
+    private void OnDisable()
+    {
+        _smoothlyChanger.ValueChanged -= SetSliderValue;
     }
 
     protected override void ChangeValue(float value)
     {
-        if (_corutine != null)
-            StopCoroutine(_corutine);
+        float startValue = _slider.value * MaxValue;
 
-        _corutine = StartCoroutine(SmoothlyChange(value));
+        _smoothlyChanger.ChangeValue(startValue, value, MaxValue);
     }
 
-    private IEnumerator SmoothlyChange(float value)
+    private void SetSliderValue(float value)
     {
-        float startValue = _slider.value;
-        float targetValue = value / MaxValue;
-        float timeElapsed = 0f;
-
-        while (timeElapsed < _changeDuration)
-        {
-            float delta = timeElapsed / _changeDuration;
-
-            _slider.value = Mathf.Lerp(startValue, targetValue, delta);
-            timeElapsed += Time.deltaTime;
-
-            yield return null;
-        }
+        _slider.value = value;
     }
 }

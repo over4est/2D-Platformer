@@ -1,41 +1,31 @@
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterMovement), typeof(Health))]
-public class Character : MonoBehaviour, IDamageable
+[RequireComponent(typeof(Health))]
+public abstract class Character : MonoBehaviour, IDamageable
 {
-    private CharacterMovement _characterMovement;
-    private AnimatorValueChanger _animatorController;
     private Health _health;
+
+    protected Health Health => _health;
 
     private void Awake()
     {
-        _characterMovement = GetComponent<CharacterMovement>();
         _health = GetComponent<Health>();
-        _animatorController = GetComponentInChildren<AnimatorValueChanger>();
     }
 
-    private void FixedUpdate()
+    private void OnEnable()
     {
-        _characterMovement.Move();
-        _animatorController.SetXDirectionValue(Mathf.Abs(_characterMovement.XMovementDirection));
+        _health.Died += Die;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnDisable()
     {
-        if (collision.transform.TryGetComponent(out FirstAid firstAid))
-        {
-            UseFirstAid(firstAid.HealAmount);
-            firstAid.Disable();
-        }
+        _health.Died -= Die;
     }
 
-    public void TakeDamage(int damage)
-    {
-        _health.TakeDamage(damage);
-    }
+    public abstract void TakeDamage(float damage);
 
-    private void UseFirstAid(int healAmount)
+    protected void Die()
     {
-        _health.Heal(healAmount);
+        gameObject.SetActive(false);
     }
 }

@@ -1,50 +1,48 @@
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyMovement), typeof(Attacker), typeof(CharacterDetector))]
+[RequireComponent(typeof(EnemyMovement), typeof(BaseAttackSkill), typeof(PlayerDetector))]
 [RequireComponent(typeof(Health))]
-public class Enemy : MonoBehaviour, IDamageable
+public class Enemy : Character
 {
     [SerializeField] private float _distanceToAttack;
 
-    private Attacker _attacker;
-    private Health _health;
+    private BaseAttackSkill _baseAttack;
     private EnemyMovement _enemyMovement;
     private AnimatorValueChanger _animatorValueChanger;
-    private CharacterDetector _characterDetector;
+    private PlayerDetector _playerDetector;
 
-    private void Awake()
+    private void Start()
     {
         _enemyMovement = GetComponent<EnemyMovement>();
-        _characterDetector = GetComponent<CharacterDetector>();
-        _health = GetComponent<Health>();
-        _attacker = GetComponent<Attacker>();
+        _playerDetector = GetComponent<PlayerDetector>();
+        _baseAttack = GetComponent<BaseAttackSkill>();
         _animatorValueChanger = GetComponentInChildren<AnimatorValueChanger>();
     }
 
     private void FixedUpdate()
     {
-        if (_characterDetector.IsDetected == false)
+        if (_playerDetector.IsDetected == false)
         {
             _enemyMovement.MoveToWaypoint();
         }
 
-        if (_characterDetector.IsDetected)
+        if (_playerDetector.IsDetected)
         {
-            float sqrDistanceToTarget = (_characterDetector.DetectedCharacter.position - transform.position).sqrMagnitude;
+            float sqrDistanceToTarget = (_playerDetector.DetectedCharacter.position - transform.position).sqrMagnitude;
 
-            if (sqrDistanceToTarget <= _distanceToAttack && _attacker.IsReadyAttack)
+            if (sqrDistanceToTarget <= _distanceToAttack)
             {
-                _attacker.Attack();
+                _baseAttack.Use();
             }
 
-            _enemyMovement.MoveToCharacter(_characterDetector.DetectedCharacter);
+            _enemyMovement.MoveToCharacter(_playerDetector.DetectedCharacter);
         }
 
         _animatorValueChanger.SetXDirectionValue(_enemyMovement.XMovementDirection);
     }
 
-    public void TakeDamage(int damage)
+    public override void TakeDamage(float damage)
     {
-        _health.TakeDamage(damage);
+        Health.TakeDamage(damage);
     }
 }

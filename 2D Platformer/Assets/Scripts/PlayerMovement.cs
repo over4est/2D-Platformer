@@ -1,20 +1,22 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Mover), typeof(InputReader), typeof(GroundDetector))]
-[RequireComponent(typeof(Attacker))]
-public class CharacterMovement : MonoBehaviour
+[RequireComponent(typeof(BaseAttackSkill), typeof(VampirismSkill))]
+public class PlayerMovement : MonoBehaviour
 {
-    private Attacker _attacker;
+    private BaseAttackSkill _baseAttack;
     private SpriteFlipper _spriteFlipper;
     private Mover _mover;
     private InputReader _inputReader;
     private GroundDetector _groundDetector;
+    private VampirismSkill _vampirismSkill;
 
     public float XMovementDirection => _inputReader.XDirection;
 
     private void Awake()
     {
-        _attacker = GetComponent<Attacker>();
+        _vampirismSkill = GetComponent<VampirismSkill>();
+        _baseAttack = GetComponent<BaseAttackSkill>();
         _inputReader = GetComponent<InputReader>();
         _groundDetector = GetComponent<GroundDetector>();
         _mover = GetComponent<Mover>();
@@ -24,13 +26,15 @@ public class CharacterMovement : MonoBehaviour
     private void OnEnable()
     {
         _inputReader.JumpPressed += Jump;
-        _inputReader.AttackPressed += Attack;
+        _inputReader.AttackPressed += UseAttack;
+        _inputReader.VampireSkillPressed += UseVampoireSkill;
     }
 
     private void OnDisable()
     {
         _inputReader.JumpPressed -= Jump;
-        _inputReader.AttackPressed -= Attack;
+        _inputReader.AttackPressed -= UseAttack;
+        _inputReader.VampireSkillPressed -= UseVampoireSkill;
     }
 
     public void Move()
@@ -42,12 +46,14 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    private void Attack()
+    private void UseAttack()
     {
-        if (_attacker.IsReadyAttack)
-        {
-            _attacker.Attack();
-        }
+        _baseAttack.Use();
+    }
+
+    private void UseVampoireSkill()
+    {
+        _vampirismSkill.Use();
     }
 
     private void Jump()

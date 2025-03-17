@@ -1,4 +1,6 @@
-public interface IDamageable 
+using Unity.Mathematics;
+
+public interface IDamageable
 {
-    public void TakeDamage(int damage);
+    public void TakeDamage(float damage);
 }

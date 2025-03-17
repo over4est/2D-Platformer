@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(EnemyMovement))]
-public class CharacterDetector : MonoBehaviour
+public class PlayerDetector : MonoBehaviour
 {
     [SerializeField] private float _rayDistance;
     [SerializeField] private LayerMask _characterLayer;
