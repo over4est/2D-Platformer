@@ -16,6 +16,13 @@ public abstract class Skill : MonoBehaviour
     protected float ReloadTime => _reloadTime;
     protected LayerMask TargetLayer => _targetLayer;
 
+    public abstract void Use();
+
+    protected void SetNotReadyToUse()
+    {
+        _isReadyToUse = false;
+    }
+
     private void Awake()
     {
         _reloader = GetComponent<Reloader>();
@@ -29,13 +36,6 @@ public abstract class Skill : MonoBehaviour
     private void OnDisable()
     {
         _reloader.Reloaded -= Reload;
-    }
-
-    public abstract void Use();
-
-    protected void SetNotReadyToUse()
-    {
-        _isReadyToUse = false;
     }
 
     private void Reload()

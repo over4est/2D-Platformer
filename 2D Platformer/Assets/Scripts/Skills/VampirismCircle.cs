@@ -19,6 +19,16 @@ public class VampirismCircle : MonoBehaviour
 
     public float Lifetime => _lifetime;
 
+    public void SetDamage(float damage)
+    {
+        _damage = damage;
+    }
+
+    public void SetLayerMask(LayerMask targetLayer)
+    {
+        _targetLayer = targetLayer;
+    }
+
     private void Awake()
     {
         _health = GetComponentInParent<Health>();
@@ -30,26 +40,6 @@ public class VampirismCircle : MonoBehaviour
     {
         StartCoroutine(LifeCountdown(_lifetime));
         StartCoroutine(AttackCountdown(_attackDelay));
-    }
-
-    private void Update()
-    {
-        Collider2D[] targets = Physics2D.OverlapCircleAll(transform.position, transform.lossyScale.x * _radiusScale, _targetLayer);
-
-        if (targets.Length > 0)
-            _currentTarget = GetTarget(targets);
-        else
-            _currentTarget = null;
-    }
-
-    public void SetDamage(float damage)
-    {
-        _damage = damage;
-    }
-
-    public void SetLayerMask(LayerMask targetLayer)
-    {
-        _targetLayer = targetLayer;
     }
 
     private void DrainLife(float damage, Enemy target)
@@ -68,12 +58,15 @@ public class VampirismCircle : MonoBehaviour
 
         foreach (Collider2D tempTarget in targets)
         {
+            if (tempTarget == null)
+                continue;
+
             float tempDistance = (tempTarget.transform.position - transform.position).sqrMagnitude;
 
-            if (distance > tempDistance)
+            if (distance > tempDistance && tempTarget.TryGetComponent(out Enemy enemy))
             {
                 distance = tempDistance;
-                target = tempTarget.GetComponent<Enemy>();
+                target = enemy;
             }
         }
 
@@ -82,9 +75,15 @@ public class VampirismCircle : MonoBehaviour
 
     private IEnumerator AttackCountdown(float delay)
     {
+        int maxEnemiesCount = 5;
+        Collider2D[] targets = new Collider2D[maxEnemiesCount];
+
         while (enabled)
         {
             yield return _attackWait;
+
+            if (Physics2D.OverlapCircleNonAlloc(transform.position, transform.lossyScale.x * _radiusScale, targets, _targetLayer) > 0)
+                _currentTarget = GetTarget(targets);
 
             if (_currentTarget != null)
                 DrainLife(_damage, _currentTarget);

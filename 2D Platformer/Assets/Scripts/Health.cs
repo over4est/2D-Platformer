@@ -6,18 +6,12 @@ public class Health : MonoBehaviour
     [SerializeField] private float _maxValue;
 
     private float _currentValue;
+    private float _minValue = 0f;
 
     public event Action<float> ValueChanged;
     public event Action Died;
 
     public float MaxValue => _maxValue;
-
-    private float _minValue = 0f;
-
-    private void Awake()
-    {
-        _currentValue = _maxValue;
-    }
 
     public void TakeDamage(float damage)
     {
@@ -44,5 +38,10 @@ public class Health : MonoBehaviour
         _currentValue = Mathf.Clamp(_currentValue + value, _minValue, _maxValue);
 
         ValueChanged?.Invoke(_currentValue);
+    }
+
+    private void Awake()
+    {
+        _currentValue = _maxValue;
     }
 }

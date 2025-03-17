@@ -4,7 +4,7 @@ public class SpriteFlipper : MonoBehaviour
 {
     private bool _isFacingRight = true;
 
-    public void TryFlip(float xDirection)
+    public void HandleDirection(float xDirection)
     {
         if (xDirection > 0 && _isFacingRight == false)
         {

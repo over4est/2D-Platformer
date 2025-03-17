@@ -1,21 +1,26 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerMovement), typeof(Health))]
+[RequireComponent(typeof(PlayerMovement), typeof(Health), typeof(PlayerCombat))]
 public class Player : Character
 {
     private PlayerMovement _characterMovement;
-    private AnimatorValueChanger _animatorController;
+    private CharacterAnimator _animatorController;
+
+    public override void TakeDamage(float damage)
+    {
+        Health.TakeDamage(damage);
+    }
 
     private void Start()
     {
         _characterMovement = GetComponent<PlayerMovement>();
-        _animatorController = GetComponentInChildren<AnimatorValueChanger>();
+        _animatorController = GetComponentInChildren<CharacterAnimator>();
     }
 
     private void FixedUpdate()
     {
         _characterMovement.Move();
-        _animatorController.SetXDirectionValue(Mathf.Abs(_characterMovement.XMovementDirection));
+        _animatorController.PlayMove(Mathf.Abs(_characterMovement.XMovementDirection));
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -25,11 +30,6 @@ public class Player : Character
             UseFirstAid(firstAid.HealAmount);
             firstAid.Disable();
         }
-    }
-
-    public override void TakeDamage(float damage)
-    {
-        Health.TakeDamage(damage);
     }
 
     private void UseFirstAid(int healAmount)

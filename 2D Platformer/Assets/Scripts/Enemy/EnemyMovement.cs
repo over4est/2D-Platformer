@@ -13,12 +13,6 @@ public class EnemyMovement : MonoBehaviour
 
     public float XMovementDirection { get; private set; }
 
-    private void Awake()
-    {
-        _mover = GetComponent<Mover>();
-        _spriteFlipper = GetComponentInChildren<SpriteFlipper>();
-    }
-
     public void MoveToWaypoint()
     {
         float sqrDistanceToWaypoint = (_waypoints[_currentWaypoint].transform.position - transform.position).sqrMagnitude;
@@ -31,7 +25,7 @@ public class EnemyMovement : MonoBehaviour
         XMovementDirection = (_waypoints[_currentWaypoint].transform.position - transform.position).normalized.x;
 
         _mover.Move(XMovementDirection);
-        _spriteFlipper.TryFlip(XMovementDirection);
+        _spriteFlipper.HandleDirection(XMovementDirection);
     }
 
     public void MoveToCharacter(Transform character)
@@ -39,6 +33,12 @@ public class EnemyMovement : MonoBehaviour
         XMovementDirection = (character.position - transform.position).normalized.x;
 
         _mover.Move(XMovementDirection);
-        _spriteFlipper.TryFlip(XMovementDirection);
+        _spriteFlipper.HandleDirection(XMovementDirection);
+    }
+
+    private void Awake()
+    {
+        _mover = GetComponent<Mover>();
+        _spriteFlipper = GetComponentInChildren<SpriteFlipper>();
     }
 }

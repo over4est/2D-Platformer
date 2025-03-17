@@ -11,12 +11,6 @@ public class VampirismSkill : Skill
     private ObjectPool<VampirismCircle> _pool;
     private int _maxCircles = 1;
 
-    private void Start()
-    {
-        _pool = new ObjectPool<VampirismCircle>(_prefab, _maxCircles, transform);
-        _reloadView = GetComponent<ReloadView>();
-    }
-
     public override void Use()
     {
         if (IsReadyToUse && _pool.TryGet(out VampirismCircle obj))
@@ -32,6 +26,12 @@ public class VampirismSkill : Skill
             obj.DisableNeeded += Disable;
             obj.DisableNeeded += Reload;
         }
+    }
+
+    private void Start()
+    {
+        _pool = new ObjectPool<VampirismCircle>(_prefab, _maxCircles, transform);
+        _reloadView = GetComponent<ReloadView>();
     }
 
     private void Reload(VampirismCircle obj)

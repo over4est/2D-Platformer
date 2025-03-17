@@ -5,18 +5,13 @@ public class BaseAttackSkill : Skill
     [SerializeField] private Transform _attackPoint;
     [SerializeField] private float _attackRadius;
 
-    private AnimatorValueChanger _animatorValueChanger;
-
-    private void Start()
-    {
-        _animatorValueChanger = GetComponentInChildren<AnimatorValueChanger>();
-    }
+    private CharacterAnimator _animatorValueChanger;
 
     public override void Use()
     {
         if (IsReadyToUse)
         {
-            _animatorValueChanger.SetAttackTrigger();
+            _animatorValueChanger.PlayAttack();
 
             Collider2D target = Physics2D.OverlapCircle(_attackPoint.position, _attackRadius, TargetLayer);
 
@@ -27,5 +22,10 @@ public class BaseAttackSkill : Skill
 
             Reloader.Reload(ReloadTime);
         }
+    }
+
+    private void Start()
+    {
+        _animatorValueChanger = GetComponentInChildren<CharacterAnimator>();
     }
 }

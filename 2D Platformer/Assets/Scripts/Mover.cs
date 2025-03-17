@@ -8,11 +8,6 @@ public class Mover : MonoBehaviour
 
     private Rigidbody2D _rigidbody;
 
-    private void Awake()
-    {
-        _rigidbody = GetComponent<Rigidbody2D>();
-    }
-
     public void Move(float xDirection)
     {
         _rigidbody.velocity = new Vector2(xDirection * _movementSpeed, _rigidbody.velocity.y);
@@ -22,5 +17,10 @@ public class Mover : MonoBehaviour
     {
         _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, 0f);
         _rigidbody.AddForce(new Vector2(0f, _jumpForce));
+    }
+
+    private void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody2D>();
     }
 }

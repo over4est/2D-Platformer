@@ -8,15 +8,20 @@ public class Enemy : Character
 
     private BaseAttackSkill _baseAttack;
     private EnemyMovement _enemyMovement;
-    private AnimatorValueChanger _animatorValueChanger;
+    private CharacterAnimator _animatorValueChanger;
     private PlayerDetector _playerDetector;
+
+    public override void TakeDamage(float damage)
+    {
+        Health.TakeDamage(damage);
+    }
 
     private void Start()
     {
         _enemyMovement = GetComponent<EnemyMovement>();
         _playerDetector = GetComponent<PlayerDetector>();
         _baseAttack = GetComponent<BaseAttackSkill>();
-        _animatorValueChanger = GetComponentInChildren<AnimatorValueChanger>();
+        _animatorValueChanger = GetComponentInChildren<CharacterAnimator>();
     }
 
     private void FixedUpdate()
@@ -38,11 +43,6 @@ public class Enemy : Character
             _enemyMovement.MoveToCharacter(_playerDetector.DetectedCharacter);
         }
 
-        _animatorValueChanger.SetXDirectionValue(_enemyMovement.XMovementDirection);
-    }
-
-    public override void TakeDamage(float damage)
-    {
-        Health.TakeDamage(damage);
+        _animatorValueChanger.PlayMove(_enemyMovement.XMovementDirection);
     }
 }
